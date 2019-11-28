@@ -11,8 +11,12 @@ import {
   StyleSheet,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import logo from '../assets/logo.png';
 import background from '../assets/background.png';
+
+Icon.loadFont();
 
 export default function Login() {
   const [lembrarMe, setLembrarMe] = useState(false);
@@ -54,8 +58,11 @@ export default function Login() {
           <View style={styles.lembre}>
             <TouchableOpacity
               style={lembrarMe ? styles.checkBoxChecked : styles.checkBox}
-              onPress={() => setLembrarMe(!lembrarMe)}
-            />
+              onPress={() => setLembrarMe(!lembrarMe)}>
+              {lembrarMe && (
+                <Icon name="check-bold" size={18} color="#246bff" />
+              )}
+            </TouchableOpacity>
             <Text style={styles.option}>Lembrar-me</Text>
           </View>
 
@@ -99,6 +106,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255, 255, 255, 0.4)',
     borderWidth: 1,
     marginTop: 10,
+    paddingHorizontal: 20,
   },
 
   lembre: {
@@ -112,8 +120,10 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.4)',
     borderWidth: 1,
     borderRadius: 6,
-    backgroundColor: '#555',
+    backgroundColor: 'rgba(255,255,255,0.1)',
     marginRight: 7,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   checkBoxChecked: {
@@ -124,6 +134,8 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#fff',
     marginRight: 7,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   button: {
