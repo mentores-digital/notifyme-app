@@ -112,9 +112,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 50,
     fontSize: 40,
-    fontWeight: '100',
     color: '#fff',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat-Light',
   },
 
   input: {
