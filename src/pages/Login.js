@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
   View,
@@ -12,12 +12,12 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import CheckBox from '@react-native-community/checkbox';
-
 import logo from '../assets/logo.png';
 import background from '../assets/background.png';
 
 export default function Login() {
+  const [lembrarMe, setLembrarMe] = useState(false);
+
   return (
     <ImageBackground
       source={background}
@@ -43,7 +43,7 @@ export default function Login() {
           autoCorrect={false}
           placeholder="Senha"
           placeholderTextColor="#fff"
-          textContentType='password'
+          textContentType="password"
           style={styles.input}
         />
 
@@ -53,12 +53,11 @@ export default function Login() {
 
         <View style={styles.optionsContainer}>
           <View style={styles.lembre}>
-            {Platform.OS === 'ios' && <Switch />}
-            {Platform.OS === 'android' && <CheckBox value={true} />}
-
-            <TouchableOpacity>
-              <Text style={styles.option}>Lembrar-me</Text>
-            </TouchableOpacity>
+            <TouchableOpacity
+              style={lembrarMe ? styles.checkBoxChecked : styles.checkBox}
+              onPress={() => setLembrarMe(!lembrarMe)}
+            />
+            <Text style={styles.option}>Lembrar-me</Text>
           </View>
 
           <TouchableOpacity>
@@ -105,7 +104,27 @@ const styles = StyleSheet.create({
 
   lembre: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+
+  checkBox: {
+    width: 24,
+    height: 24,
+    borderColor: 'rgba(255,255,255,0.4)',
+    borderWidth: 1,
+    borderRadius: 6,
+    backgroundColor: '#555',
+    marginRight: 7,
+  },
+
+  checkBoxChecked: {
+    width: 24,
+    height: 24,
+    borderColor: 'rgba(255,255,255,0.4)',
+    borderWidth: 1,
+    borderRadius: 6,
+    backgroundColor: '#fff',
+    marginRight: 7,
   },
 
   button: {
@@ -128,7 +147,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 30
+    marginTop: 30,
   },
 
   option: {
