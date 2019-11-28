@@ -21,7 +21,7 @@ export default function Login() {
   return (
     <ImageBackground
       source={background}
-      style={{ width: '100%', height: '100%' }}>
+      style={{width: '100%', height: '100%'}}>
       <KeyboardAvoidingView
         behavior="padding"
         enabled={Platform.OS === 'ios'}
@@ -43,7 +43,7 @@ export default function Login() {
           autoCorrect={false}
           placeholder="Senha"
           placeholderTextColor="#fff"
-          textContentType='password'
+          textContentType="password"
           style={styles.input}
         />
 
@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '300',
     color: '#fff',
-    fontFamily: 'sans-serif',
   },
 
   input: {
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
 
   lembre: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
 
   button: {
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 30
+    marginTop: 30,
   },
 
   option: {
