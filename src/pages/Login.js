@@ -16,11 +16,15 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import logo from '../assets/logo.png';
 import background from '../assets/background.png';
 
+import api from '../services/api';
+
 Icon.loadFont();
 
 export default function Login() {
   const [lembrarMe, setLembrarMe] = useState(false);
-  const [mostarSenha, setMostarSenha] = useState(false);
+  const [ocultarSenha, setOcultarSenha] = useState(true);
+
+  async function handleLogin() {}
 
   return (
     <ImageBackground
@@ -38,7 +42,7 @@ export default function Login() {
           autoCapitalize="none"
           autoCorrect={false}
           placeholder="Login"
-          placeholderTextColor="#fff"
+          placeholderTextColor="rgba(255, 255, 255, 0.4)"
           style={styles.input}
           textContentType="username"
         />
@@ -48,15 +52,15 @@ export default function Login() {
             autoCapitalize="none"
             autoCorrect={false}
             placeholder="Senha"
-            placeholderTextColor="#fff"
-            secureTextEntry={mostarSenha}
+            placeholderTextColor="rgba(255, 255, 255, 0.4)"
+            secureTextEntry={ocultarSenha}
             textContentType="password"
             style={styles.input}
           />
           <TouchableOpacity
-            onPress={() => setMostarSenha(!mostarSenha)}
+            onPress={() => setOcultarSenha(!ocultarSenha)}
             style={styles.passwordEye}>
-            {mostarSenha ? (
+            {ocultarSenha ? (
               <Icon name="eye" size={22} color="#fff" />
             ) : (
               <Icon name="eye-off" size={22} color="#fff" />
@@ -101,15 +105,16 @@ const styles = StyleSheet.create({
   logo: {
     width: 158.2,
     height: 40,
+    tintColor: '#fff',
   },
 
   description: {
     marginTop: 20,
     marginBottom: 50,
-    fontSize: 20,
-    fontWeight: '300',
+    fontSize: 40,
+    fontWeight: '100',
     color: '#fff',
-    fontFamily: 'sans-serif',
+    fontFamily: 'Montserrat',
   },
 
   input: {
@@ -173,6 +178,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
+    fontFamily: 'Montserrat',
     fontSize: 14,
   },
 
@@ -180,7 +186,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 30,
+    marginTop: 49,
   },
 
   option: {
