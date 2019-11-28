@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   KeyboardAvoidingView,
   View,
@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
-  Switch,
   StyleSheet,
 } from 'react-native';
 
@@ -21,7 +20,7 @@ export default function Login() {
   return (
     <ImageBackground
       source={background}
-      style={{ width: '100%', height: '100%' }}>
+      style={{width: '100%', height: '100%'}}>
       <KeyboardAvoidingView
         behavior="padding"
         enabled={Platform.OS === 'ios'}
