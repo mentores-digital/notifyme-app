@@ -17,7 +17,11 @@ import CheckBox from '@react-native-community/checkbox';
 import logo from '../assets/logo.png';
 import background from '../assets/background.png';
 
-export default function Login() {
+export default function Login({navigation}) {
+  function handleLogin() {
+    navigation.navigate('Dashboard');
+  }
+
   return (
     <ImageBackground
       source={background}
@@ -47,7 +51,7 @@ export default function Login() {
           style={styles.input}
         />
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
