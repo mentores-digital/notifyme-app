@@ -55,16 +55,17 @@ export default function Login() {
         </TouchableOpacity>
 
         <View style={styles.optionsContainer}>
-          <View style={styles.lembre}>
-            <TouchableOpacity
-              style={lembrarMe ? styles.checkBoxChecked : styles.checkBox}
-              onPress={() => setLembrarMe(!lembrarMe)}>
-              {lembrarMe && (
-                <Icon name="check-bold" size={18} color="#246bff" />
-              )}
-            </TouchableOpacity>
-            <Text style={styles.option}>Lembrar-me</Text>
-          </View>
+          <TouchableOpacity onPress={() => setLembrarMe(!lembrarMe)}>
+            <View style={styles.lembre}>
+              <View
+                style={lembrarMe ? styles.checkBoxChecked : styles.checkBox}>
+                {lembrarMe && (
+                  <Icon name="check-bold" size={18} color="#246bff" />
+                )}
+              </View>
+              <Text style={styles.option}>Lembrar-me</Text>
+            </View>
+          </TouchableOpacity>
 
           <TouchableOpacity>
             <Text style={styles.option}>Esqueceu a senha?</Text>
