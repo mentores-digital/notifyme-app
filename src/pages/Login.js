@@ -20,6 +20,7 @@ Icon.loadFont();
 
 export default function Login() {
   const [lembrarMe, setLembrarMe] = useState(false);
+  const [mostarSenha, setMostarSenha] = useState(false);
 
   return (
     <ImageBackground
@@ -39,16 +40,29 @@ export default function Login() {
           placeholder="Login"
           placeholderTextColor="#fff"
           style={styles.input}
+          textContentType="username"
         />
 
-        <TextInput
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Senha"
-          placeholderTextColor="#fff"
-          textContentType="password"
-          style={styles.input}
-        />
+        <View style={styles.rowContainer}>
+          <TextInput
+            autoCapitalize="none"
+            autoCorrect={false}
+            placeholder="Senha"
+            placeholderTextColor="#fff"
+            secureTextEntry={mostarSenha}
+            textContentType="password"
+            style={styles.input}
+          />
+          <TouchableOpacity
+            onPress={() => setMostarSenha(!mostarSenha)}
+            style={styles.passwordEye}>
+            {mostarSenha ? (
+              <Icon name="eye" size={22} color="#fff" />
+            ) : (
+              <Icon name="eye-off" size={22} color="#fff" />
+            )}
+          </TouchableOpacity>
+        </View>
 
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Entrar</Text>
@@ -56,7 +70,7 @@ export default function Login() {
 
         <View style={styles.optionsContainer}>
           <TouchableOpacity onPress={() => setLembrarMe(!lembrarMe)}>
-            <View style={styles.lembre}>
+            <View style={styles.rowContainer}>
               <View
                 style={lembrarMe ? styles.checkBoxChecked : styles.checkBox}>
                 {lembrarMe && (
@@ -100,6 +114,7 @@ const styles = StyleSheet.create({
 
   input: {
     height: 60,
+    width: '100%',
     alignSelf: 'stretch',
     color: '#fff',
     backgroundColor: 'rgba(0, 0, 0, 0)',
@@ -110,9 +125,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  lembre: {
+  rowContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+
+  passwordEye: {
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
   },
 
   checkBox: {
