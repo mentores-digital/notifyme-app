@@ -17,6 +17,10 @@
     "react-native-gesture-handler": "^1.5.2",
     "react-native-reanimated": "^1.4.0",
 <<<<<<< HEAD
+    "react-native-vector-icons": "^6.6.0",
+=======
+<<<<<<< HEAD
+>>>>>>> 9ebbc01b20dee4d6cfb6b6a634c3ad40531eb4bd
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3"
 =======

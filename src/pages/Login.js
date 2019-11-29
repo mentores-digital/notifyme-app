@@ -16,6 +16,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import logo from '../assets/logo.png';
 import background from '../assets/background.png';
 
+<<<<<<< HEAD
+export default function Login({navigation}) {
+  function handleLogin() {
+    navigation.navigate('Dashboard');
+  }
+=======
 import api from '../services/api';
 
 Icon.loadFont();
@@ -25,6 +31,7 @@ export default function Login() {
   const [ocultarSenha, setOcultarSenha] = useState(true);
 
   async function handleLogin() {}
+>>>>>>> 9ebbc01b20dee4d6cfb6b6a634c3ad40531eb4bd
 
   return (
     <ImageBackground
@@ -79,7 +86,7 @@ export default function Login() {
         </View>
 >>>>>>> release/v1.0.0
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
