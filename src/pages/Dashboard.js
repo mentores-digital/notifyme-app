@@ -15,7 +15,12 @@ Icon.loadFont();
 import api from '../services/api';
 
 export default function Dashboard({navigation}) {
-  const [notifys, setNotifys] = useState(null);
+  const [notifys, setNotifys] = useState({
+    today: [],
+    yesterday: [],
+    week: [],
+    outhers: [],
+  });
 
   const id = navigation.getParam('user');
 
@@ -67,55 +72,51 @@ export default function Dashboard({navigation}) {
         <Text style={styles.textMenu}>Histórico</Text>
       </View>
       <ScrollView style={styles.list}>
-        {notifys && (
-          <>
-            {notifys.today.length && (
-              <View style={styles.blockNotify}>
-                <Text style={styles.blockNotifyTitle}>Hoje</Text>
-                {notifys.today.map((item, index) => (
-                  <View style={styles.notify} key={String(index)}>
-                    <View style={typeStyle(item)} />
-                    <View style={styles.notifyInfos}>
-                      <Text style={styles.notifyTitle}>{item.title}</Text>
-                      <Text style={styles.notifyHorario}>{item.hour}</Text>
-                    </View>
+        {notifys.today.length > 0 && (
+          <View style={styles.blockNotify}>
+            <Text style={styles.blockNotifyTitle}>Hoje</Text>
+            {notifys.today.map((item, index) => (
+              <View style={styles.notify} key={String(index)}>
+                <View style={typeStyle(item)} />
+                <View style={styles.notifyInfos}>
+                  <Text style={styles.notifyTitle}>{item.title}</Text>
+                  <Text style={styles.notifyHorario}>{item.hour}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        )}
+        {notifys.yesterday.length > 0 && (
+          <View style={styles.blockNotify}>
+            <Text style={styles.blockNotifyTitle}>Ontem</Text>
+            <>
+              {notifys.yesterday.map((item, index) => (
+                <View style={styles.notify} key={String(index)}>
+                  <View style={typeStyle(item)} />
+                  <View style={styles.notifyInfos}>
+                    <Text style={styles.notifyTitle}>{item.title}</Text>
+                    <Text style={styles.notifyHorario}>{item.hour}</Text>
                   </View>
-                ))}
-              </View>
-            )}
-            {notifys.yesterday.length && (
-              <View style={styles.blockNotify}>
-                <Text style={styles.blockNotifyTitle}>Ontem</Text>
-                <>
-                  {notifys.yesterday.map((item, index) => (
-                    <View style={styles.notify} key={String(index)}>
-                      <View style={typeStyle(item)} />
-                      <View style={styles.notifyInfos}>
-                        <Text style={styles.notifyTitle}>{item.title}</Text>
-                        <Text style={styles.notifyHorario}>{item.hour}</Text>
-                      </View>
-                    </View>
-                  ))}
-                </>
-              </View>
-            )}
-            {notifys.week.length && (
-              <View style={styles.blockNotify}>
-                <Text style={styles.blockNotifyTitle}>Essa semana</Text>
-                <>
-                  {notifys.week.map((item, index) => (
-                    <View style={styles.notify} key={String(index)}>
-                      <View style={typeStyle(item)} />
-                      <View style={styles.notifyInfos}>
-                        <Text style={styles.notifyTitle}>{item.title}</Text>
-                        <Text style={styles.notifyHorario}>{item.hour}</Text>
-                      </View>
-                    </View>
-                  ))}
-                </>
-              </View>
-            )}
-          </>
+                </View>
+              ))}
+            </>
+          </View>
+        )}
+        {notifys.week.length > 0 && (
+          <View style={styles.blockNotify}>
+            <Text style={styles.blockNotifyTitle}>Essa semana</Text>
+            <>
+              {notifys.week.map((item, index) => (
+                <View style={styles.notify} key={String(index)}>
+                  <View style={typeStyle(item)} />
+                  <View style={styles.notifyInfos}>
+                    <Text style={styles.notifyTitle}>{item.title}</Text>
+                    <Text style={styles.notifyHorario}>{item.hour}</Text>
+                  </View>
+                </View>
+              ))}
+            </>
+          </View>
         )}
       </ScrollView>
       <TouchableOpacity
