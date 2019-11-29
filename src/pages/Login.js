@@ -20,11 +20,13 @@ import api from '../services/api';
 
 Icon.loadFont();
 
-export default function Login() {
+export default function Login({navigation}) {
   const [lembrarMe, setLembrarMe] = useState(false);
   const [ocultarSenha, setOcultarSenha] = useState(true);
 
-  async function handleLogin() {}
+  async function handleLogin() {
+    navigation.navigate('Dashboard');
+  }
 
   return (
     <ImageBackground
@@ -68,7 +70,7 @@ export default function Login() {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
@@ -85,7 +87,10 @@ export default function Login() {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Cadastrar');
+            }}>
             <Text style={styles.option}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
