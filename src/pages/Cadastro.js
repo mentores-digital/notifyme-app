@@ -9,6 +9,7 @@ import {
   Image,
   ImageBackground,
   StyleSheet,
+  Alert,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -20,13 +21,30 @@ import api from '../services/api';
 
 Icon.loadFont();
 
-export default function Login({navigation}) {
+export default function Cadastro({navigation}) {
   const [lembrarMe, setLembrarMe] = useState(false);
   const [ocultarSenha, setOcultarSenha] = useState(true);
-  const [userRole] = useState('admin');
 
-  async function handleLogin() {
-    navigation.navigate('Dashboard');
+  const [role] = useState('admin');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  async function handleCadastro() {
+    const response = await api.post('/users', {
+      username,
+      email,
+      password,
+      role,
+    });
+
+    const {error} = response.data;
+
+    if (error) {
+      return Alert.alert('Erro', error);
+    }
+
+    navigation.navigate('Login');
   }
 
   return (
@@ -48,6 +66,8 @@ export default function Login({navigation}) {
           placeholderTextColor="rgba(255, 255, 255, 0.4)"
           style={styles.input}
           textContentType="username"
+          value={username}
+          onChangeText={setUsername}
         />
 
         <TextInput
@@ -57,6 +77,8 @@ export default function Login({navigation}) {
           placeholderTextColor="rgba(255, 255, 255, 0.4)"
           style={styles.input}
           textContentType="emailAddress"
+          value={email}
+          onChangeText={setEmail}
         />
 
         <View style={styles.rowContainer}>
@@ -68,6 +90,8 @@ export default function Login({navigation}) {
             secureTextEntry={ocultarSenha}
             textContentType="password"
             style={styles.input}
+            value={password}
+            onChangeText={setPassword}
           />
           <TouchableOpacity
             onPress={() => setOcultarSenha(!ocultarSenha)}
@@ -80,7 +104,7 @@ export default function Login({navigation}) {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <TouchableOpacity style={styles.button} onPress={handleCadastro}>
           <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>

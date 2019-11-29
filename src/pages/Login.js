@@ -111,7 +111,7 @@ export default function Login({navigation}) {
 
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Cadastrar');
+              navigation.navigate('Cadastro');
             }}>
             <Text style={styles.option}>Esqueceu a senha?</Text>
           </TouchableOpacity>
