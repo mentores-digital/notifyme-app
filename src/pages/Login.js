@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   KeyboardAvoidingView,
   View,
@@ -11,6 +11,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import logo from '../assets/logo.png';
@@ -24,8 +25,25 @@ export default function Login({navigation}) {
   const [lembrarMe, setLembrarMe] = useState(false);
   const [ocultarSenha, setOcultarSenha] = useState(true);
 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    AsyncStorage.getItem('user').then(user => {
+      if (user) {
+        navigation.navigate('Dashboard', {user});
+      }
+    });
+  }, [navigation]);
+
   async function handleLogin() {
-    navigation.navigate('Dashboard');
+    const response = await api.post('/login', {username, password});
+
+    const {_id} = response.data;
+
+    await AsyncStorage.setItem('user', _id);
+
+    navigation.navigate('Dashboard', {user: _id});
   }
 
   return (
@@ -47,6 +65,8 @@ export default function Login({navigation}) {
           placeholderTextColor="rgba(255, 255, 255, 0.4)"
           style={styles.input}
           textContentType="username"
+          value={username}
+          onChangeText={setUsername}
         />
 
         <View style={styles.rowContainer}>
@@ -58,6 +78,8 @@ export default function Login({navigation}) {
             secureTextEntry={ocultarSenha}
             textContentType="password"
             style={styles.input}
+            value={password}
+            onChangeText={setPassword}
           />
           <TouchableOpacity
             onPress={() => setOcultarSenha(!ocultarSenha)}
