@@ -1,10 +1,12 @@
 import React from 'react';
 import {SafeAreaView, Text} from 'react-native';
 
-export default function Login() {
+export default function Login({navigation}) {
+  const id = navigation.getParam('user');
+
   return (
     <SafeAreaView>
-      <Text>Wellnoia</Text>
+      <Text>{id}</Text>
     </SafeAreaView>
   );
 }

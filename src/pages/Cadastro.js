@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   KeyboardAvoidingView,
   View,
@@ -9,9 +9,9 @@ import {
   Image,
   ImageBackground,
   StyleSheet,
+  Alert,
 } from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import logo from '../assets/logo.png';
@@ -21,29 +21,30 @@ import api from '../services/api';
 
 Icon.loadFont();
 
-export default function Login({navigation}) {
+export default function Cadastro({navigation}) {
   const [lembrarMe, setLembrarMe] = useState(false);
   const [ocultarSenha, setOcultarSenha] = useState(true);
 
+  const [role] = useState('admin');
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  useEffect(() => {
-    AsyncStorage.getItem('user').then(user => {
-      if (user) {
-        navigation.navigate('Dashboard', {user});
-      }
+  async function handleCadastro() {
+    const response = await api.post('/users', {
+      username,
+      email,
+      password,
+      role,
     });
-  }, [navigation]);
 
-  async function handleLogin() {
-    const response = await api.post('/login', {username, password});
+    const {error} = response.data;
 
-    const {_id} = response.data;
+    if (error) {
+      return Alert.alert('Erro', error);
+    }
 
-    await AsyncStorage.setItem('user', _id);
-
-    navigation.navigate('Dashboard', {user: _id});
+    navigation.navigate('Login');
   }
 
   return (
@@ -56,7 +57,7 @@ export default function Login({navigation}) {
         style={styles.container}>
         <Image style={styles.logo} source={logo} />
 
-        <Text style={styles.description}>Envie e receba notificações.</Text>
+        <Text style={styles.description}>Cadastro de Usuário.</Text>
 
         <TextInput
           autoCapitalize="none"
@@ -67,6 +68,17 @@ export default function Login({navigation}) {
           textContentType="username"
           value={username}
           onChangeText={setUsername}
+        />
+
+        <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          placeholder="Email"
+          placeholderTextColor="rgba(255, 255, 255, 0.4)"
+          style={styles.input}
+          textContentType="emailAddress"
+          value={email}
+          onChangeText={setEmail}
         />
 
         <View style={styles.rowContainer}>
@@ -92,30 +104,9 @@ export default function Login({navigation}) {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Entrar</Text>
+        <TouchableOpacity style={styles.button} onPress={handleCadastro}>
+          <Text style={styles.buttonText}>Cadastrar</Text>
         </TouchableOpacity>
-
-        <View style={styles.optionsContainer}>
-          <TouchableOpacity onPress={() => setLembrarMe(!lembrarMe)}>
-            <View style={styles.rowContainer}>
-              <View
-                style={lembrarMe ? styles.checkBoxChecked : styles.checkBox}>
-                {lembrarMe && (
-                  <Icon name="check-bold" size={18} color="#246bff" />
-                )}
-              </View>
-              <Text style={styles.option}>Lembrar-me</Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Cadastro');
-            }}>
-            <Text style={styles.option}>Esqueceu a senha?</Text>
-          </TouchableOpacity>
-        </View>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
