@@ -47,6 +47,16 @@ export default function Login() {
           textContentType="username"
         />
 
+<<<<<<< HEAD
+        <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          placeholder="Senha"
+          placeholderTextColor="#fff"
+          textContentType="password"
+          style={styles.input}
+        />
+=======
         <View style={styles.rowContainer}>
           <TextInput
             autoCapitalize="none"
@@ -67,6 +77,7 @@ export default function Login() {
             )}
           </TouchableOpacity>
         </View>
+>>>>>>> release/v1.0.0
 
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Entrar</Text>
@@ -113,7 +124,10 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     fontSize: 40,
     color: '#fff',
+<<<<<<< HEAD
+=======
     fontFamily: 'Montserrat-Light',
+>>>>>>> release/v1.0.0
   },
 
   input: {
@@ -132,6 +146,8 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+<<<<<<< HEAD
+=======
   },
 
   passwordEye: {
@@ -162,6 +178,7 @@ const styles = StyleSheet.create({
     marginRight: 7,
     alignItems: 'center',
     justifyContent: 'center',
+>>>>>>> release/v1.0.0
   },
 
   button: {
@@ -185,7 +202,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+<<<<<<< HEAD
+    marginTop: 30,
+=======
     marginTop: 49,
+>>>>>>> release/v1.0.0
   },
 
   option: {
