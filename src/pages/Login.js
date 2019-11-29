@@ -9,10 +9,12 @@ import {
   Image,
   ImageBackground,
   StyleSheet,
+  Alert,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import firebase from 'react-native-firebase';
 
 import logo from '../assets/logo.png';
 import background from '../assets/background.png';
@@ -27,6 +29,7 @@ export default function Login({navigation}) {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     AsyncStorage.getItem('user').then(user => {
@@ -36,8 +39,28 @@ export default function Login({navigation}) {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    async function generateToken() {
+      const enabled = await firebase.messaging().hasPermission();
+      if (enabled) {
+        firebase
+          .messaging()
+          .getToken()
+          .then(fcmToken => {
+            if (fcmToken) {
+              console.log(fcmToken);
+              setToken(fcmToken);
+            }
+          });
+      } else {
+        alert('no permission');
+      }
+    }
+    generateToken();
+  }, []);
+
   async function handleLogin() {
-    const response = await api.post('/login', {username, password});
+    const response = await api.post('/login', {username, password, token});
 
     const {_id} = response.data;
 
