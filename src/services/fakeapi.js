@@ -18,7 +18,7 @@ const Notificacoes = {
       hour: 'Mar 26, 2019 at 09:20',
     },
   ],
-  last_week: [
+  week: [
     {
       type: 'urgent',
       title: 'Your monthly expense almost break the budget',

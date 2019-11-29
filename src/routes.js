@@ -16,6 +16,11 @@ IconLine.loadFont();
 
 import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 
+async function Logout(navigation) {
+  await AsyncStorage.clear();
+  navigation.navigate('Login');
+}
+
 export default createAppContainer(
   createSwitchNavigator({
     Login,
@@ -28,7 +33,7 @@ export default createAppContainer(
             headerLeft: (
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate('Login')}>
+                onPress={() => Logout(navigation)}>
                 <Icon
                   style={{marginLeft: 20, marginRight: 10}}
                   name="notifications-none"

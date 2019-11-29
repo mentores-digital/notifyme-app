@@ -9,6 +9,7 @@ import {
   Image,
   ImageBackground,
   StyleSheet,
+  Alert,
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -39,7 +40,11 @@ export default function Login({navigation}) {
   async function handleLogin() {
     const response = await api.post('/login', {username, password});
 
-    const {_id} = response.data;
+    const {_id, error} = response.data;
+
+    if (error) {
+      return Alert.alert('Erro', error);
+    }
 
     await AsyncStorage.setItem('user', _id);
 
@@ -111,11 +116,17 @@ export default function Login({navigation}) {
 
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Cadastro');
+              Alert.alert('Nao tem tela');
             }}>
             <Text style={styles.option}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Cadastro');
+          }}>
+          <Text style={styles.optionConta}>Crie sua conta</Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
@@ -217,5 +228,11 @@ const styles = StyleSheet.create({
 
   option: {
     color: '#fff',
+  },
+
+  optionConta: {
+    color: '#fff',
+    textAlign: 'center',
+    marginTop: 30,
   },
 });
