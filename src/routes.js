@@ -2,9 +2,12 @@ import React from 'react';
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 
+import AsyncStorage from '@react-native-community/async-storage';
+
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import NewNotify from './pages/NewNotify';
+import Cadastro from './pages/Cadastro';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import IconLine from 'react-native-vector-icons/SimpleLineIcons';
@@ -16,6 +19,7 @@ import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 export default createAppContainer(
   createSwitchNavigator({
     Login,
+    Cadastro,
     App: createStackNavigator(
       {
         Dashboard: {
