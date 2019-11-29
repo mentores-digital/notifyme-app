@@ -20,11 +20,13 @@ import api from '../services/api';
 
 Icon.loadFont();
 
-export default function Login() {
+export default function Login({navigation}) {
   const [lembrarMe, setLembrarMe] = useState(false);
   const [ocultarSenha, setOcultarSenha] = useState(true);
 
-  async function handleLogin() {}
+  async function handleLogin() {
+    navigation.navigate('Dashboard');
+  }
 
   return (
     <ImageBackground
