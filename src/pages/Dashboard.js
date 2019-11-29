@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {ScrollView, Text, View, StyleSheet} from 'react-native';
+import {
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import IconAntDesign from 'react-native-vector-icons/AntDesign';
@@ -8,8 +14,10 @@ Icon.loadFont();
 
 import {Notificacoes} from '../services/fakeapi';
 
-export default function Dashboard() {
+export default function Dashboard({navigation}) {
   const [notifys] = useState(Notificacoes);
+
+  const [showForm, setShowForm] = useState(false);
 
   function typeStyle(item) {
     if (item.type === 'low') {
@@ -88,6 +96,11 @@ export default function Dashboard() {
           ))}
         </View>
       </ScrollView>
+      <TouchableOpacity
+        style={styles.buttonPlus}
+        onPress={() => navigation.navigate('NewNotify')}>
+        <IconAntDesign name="plus" size={30} color="#ffffff" />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -95,6 +108,41 @@ export default function Dashboard() {
 const styles = StyleSheet.create({
   content: {
     flex: 1,
+  },
+  buttonPlus: {
+    position: 'absolute',
+    bottom: 50,
+    right: 30,
+    width: 70,
+    height: 70,
+    borderRadius: 25,
+    backgroundColor: '#0041c4',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
+    shadowColor: 'rgba(0, 65, 196, 0.3)',
+    shadowOpacity: 1,
+    shadowRadius: 2,
+    shadowOffset: {
+      width: 2,
+      height: 5,
+    },
+  },
+  formCadastroNotify: {
+    position: 'absolute',
+    left: 0,
+    top: '100%',
+    width: '100%',
+    height: '100%',
+  },
+  formCadastroNotifyShow: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'red',
+    zIndex: 20,
   },
   statusContainer: {
     flexDirection: 'row',
