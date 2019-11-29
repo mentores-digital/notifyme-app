@@ -22,7 +22,6 @@ import api from '../services/api';
 Icon.loadFont();
 
 export default function Cadastro({navigation}) {
-  const [lembrarMe, setLembrarMe] = useState(false);
   const [ocultarSenha, setOcultarSenha] = useState(true);
 
   const [role] = useState('admin');
