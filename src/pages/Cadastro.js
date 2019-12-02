@@ -22,7 +22,6 @@ import api from '../services/api';
 Icon.loadFont();
 
 export default function Cadastro({navigation}) {
-  const [lembrarMe, setLembrarMe] = useState(false);
   const [ocultarSenha, setOcultarSenha] = useState(true);
 
   const [role] = useState('admin');
@@ -106,6 +105,10 @@ export default function Cadastro({navigation}) {
 
         <TouchableOpacity style={styles.button} onPress={handleCadastro}>
           <Text style={styles.buttonText}>Cadastrar</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.option}>Voltar</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </ImageBackground>
@@ -208,5 +211,7 @@ const styles = StyleSheet.create({
 
   option: {
     color: '#fff',
+    textAlign: 'center',
+    marginTop: 30,
   },
 });

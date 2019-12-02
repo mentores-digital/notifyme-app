@@ -13,6 +13,7 @@ import {
 
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import firebase from 'react-native-firebase';
 
 import logo from '../assets/logo.png';
 import background from '../assets/background.png';
@@ -27,6 +28,7 @@ export default function Login({navigation}) {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     AsyncStorage.getItem('user').then(user => {
@@ -36,10 +38,34 @@ export default function Login({navigation}) {
     });
   }, [navigation]);
 
-  async function handleLogin() {
-    const response = await api.post('/login', {username, password});
+  useEffect(() => {
+    async function generateToken() {
+      const enabled = await firebase.messaging().hasPermission();
+      if (enabled) {
+        firebase
+          .messaging()
+          .getToken()
+          .then(fcmToken => {
+            if (fcmToken) {
+              console.log(fcmToken);
+              setToken(fcmToken);
+            }
+          });
+      } else {
+        alert('no permission');
+      }
+    }
+    generateToken();
+  }, []);
 
-    const {_id} = response.data;
+  async function handleLogin() {
+    const response = await api.post('/login', {username, password, token});
+
+    const {_id, error} = response.data;
+
+    if (error) {
+      return Alert.alert('Erro', error);
+    }
 
     await AsyncStorage.setItem('user', _id);
 
@@ -111,11 +137,17 @@ export default function Login({navigation}) {
 
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('Cadastro');
+              Alert.alert('Nao tem tela');
             }}>
             <Text style={styles.option}>Esqueceu a senha?</Text>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Cadastro');
+          }}>
+          <Text style={styles.optionConta}>Crie sua conta</Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     </ImageBackground>
   );
@@ -217,5 +249,11 @@ const styles = StyleSheet.create({
 
   option: {
     color: '#fff',
+  },
+
+  optionConta: {
+    color: '#fff',
+    textAlign: 'center',
+    marginTop: 30,
   },
 });

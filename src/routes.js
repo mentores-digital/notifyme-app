@@ -28,7 +28,10 @@ export default createAppContainer(
             headerLeft: (
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => navigation.navigate('Login')}>
+                onPress={async () => {
+                  await AsyncStorage.clear();
+                  navigation.navigate('Login');
+                }}>
                 <Icon
                   style={{marginLeft: 20, marginRight: 10}}
                   name="notifications-none"

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ScrollView,
   Text,
@@ -12,12 +12,25 @@ import IconAntDesign from 'react-native-vector-icons/AntDesign';
 IconAntDesign.loadFont();
 Icon.loadFont();
 
-import {Notificacoes} from '../services/fakeapi';
+import api from '../services/api';
 
 export default function Dashboard({navigation}) {
-  const [notifys] = useState(Notificacoes);
+  const [notifys, setNotifys] = useState({
+    today: [],
+    yesterday: [],
+    week: [],
+    outhers: [],
+  });
 
-  const [showForm, setShowForm] = useState(false);
+  const id = navigation.getParam('user');
+
+  useEffect(() => {
+    async function data() {
+      const response = await api.get(`/notify/${id}`);
+      setNotifys(response.data);
+    }
+    data();
+  }, [id]);
 
   function typeStyle(item) {
     if (item.type === 'low') {
@@ -59,42 +72,52 @@ export default function Dashboard({navigation}) {
         <Text style={styles.textMenu}>Histórico</Text>
       </View>
       <ScrollView style={styles.list}>
-        <View style={styles.blockNotify}>
-          <Text style={styles.blockNotifyTitle}>Hoje</Text>
-          {notifys.today.map((item, index) => (
-            <View style={styles.notify} key={String(index)}>
-              <View style={typeStyle(item)} />
-              <View style={styles.notifyInfos}>
-                <Text style={styles.notifyTitle}>{item.title}</Text>
-                <Text style={styles.notifyHorario}>{item.hour}</Text>
+        {notifys.today.length > 0 && (
+          <View style={styles.blockNotify}>
+            <Text style={styles.blockNotifyTitle}>Hoje</Text>
+            {notifys.today.map((item, index) => (
+              <View style={styles.notify} key={String(index)}>
+                <View style={typeStyle(item)} />
+                <View style={styles.notifyInfos}>
+                  <Text style={styles.notifyTitle}>{item.title}</Text>
+                  <Text style={styles.notifyHorario}>{item.hour}</Text>
+                </View>
               </View>
-            </View>
-          ))}
-        </View>
-        <View style={styles.blockNotify}>
-          <Text style={styles.blockNotifyTitle}>Ontem</Text>
-          {notifys.yesterday.map((item, index) => (
-            <View style={styles.notify} key={String(index)}>
-              <View style={typeStyle(item)} />
-              <View style={styles.notifyInfos}>
-                <Text style={styles.notifyTitle}>{item.title}</Text>
-                <Text style={styles.notifyHorario}>{item.hour}</Text>
-              </View>
-            </View>
-          ))}
-        </View>
-        <View style={styles.blockNotify}>
-          <Text style={styles.blockNotifyTitle}>Essa semana</Text>
-          {notifys.last_week.map((item, index) => (
-            <View style={styles.notify} key={String(index)}>
-              <View style={typeStyle(item)} />
-              <View style={styles.notifyInfos}>
-                <Text style={styles.notifyTitle}>{item.title}</Text>
-                <Text style={styles.notifyHorario}>{item.hour}</Text>
-              </View>
-            </View>
-          ))}
-        </View>
+            ))}
+          </View>
+        )}
+        {notifys.yesterday.length > 0 && (
+          <View style={styles.blockNotify}>
+            <Text style={styles.blockNotifyTitle}>Ontem</Text>
+            <>
+              {notifys.yesterday.map((item, index) => (
+                <View style={styles.notify} key={String(index)}>
+                  <View style={typeStyle(item)} />
+                  <View style={styles.notifyInfos}>
+                    <Text style={styles.notifyTitle}>{item.title}</Text>
+                    <Text style={styles.notifyHorario}>{item.hour}</Text>
+                  </View>
+                </View>
+              ))}
+            </>
+          </View>
+        )}
+        {notifys.week.length > 0 && (
+          <View style={styles.blockNotify}>
+            <Text style={styles.blockNotifyTitle}>Essa semana</Text>
+            <>
+              {notifys.week.map((item, index) => (
+                <View style={styles.notify} key={String(index)}>
+                  <View style={typeStyle(item)} />
+                  <View style={styles.notifyInfos}>
+                    <Text style={styles.notifyTitle}>{item.title}</Text>
+                    <Text style={styles.notifyHorario}>{item.hour}</Text>
+                  </View>
+                </View>
+              ))}
+            </>
+          </View>
+        )}
       </ScrollView>
       <TouchableOpacity
         style={styles.buttonPlus}
