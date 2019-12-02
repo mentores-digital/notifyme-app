@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   SafeAreaView,
   View,
@@ -7,6 +8,7 @@ import {
   Text,
   TextInput,
   Picker,
+  Switch,
   StyleSheet,
 } from 'react-native';
 
@@ -16,7 +18,7 @@ export default function Login({navigation}) {
   const [tipo, setTipo] = useState('low');
   const [horarioEnvio, setHorarioEnvio] = useState('now');
   const [periodoAcesso, setPeriodoAcesso] = useState('');
-  const [receber, setReceber] = useState(true);
+  const [receber, setReceber] = useState(false);
   const [to, setTo] = useState([]);
 
   async function loadUsers() {
@@ -119,6 +121,11 @@ export default function Login({navigation}) {
           <Text style={styles.legenda}>Notificação</Text>
           <View style={styles.input}>
             <Text style={styles.inputReceber}>Receber notificação</Text>
+            <Switch
+              style={{marginTop: 30}}
+              value={receber}
+              onValueChange={val => setReceber(val)}
+            />
           </View>
         </View>
 
@@ -133,9 +140,9 @@ export default function Login({navigation}) {
                 setPeriodoAcesso(itemValue)
               }>
               <Picker.Item label="Todos" value="todos" />
-              {to.map(user => (
-                <Picker.Item label={item.username} value={item._id} />
-              ))}
+              {/* {to.map(user => (
+                <Picker.Item label={user.username} value={user._id} />
+              ))} */}
             </Picker>
           </View>
         </View>

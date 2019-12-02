@@ -18,6 +18,7 @@
     "react-native-gesture-handler": "^1.5.2",
     "react-native-push-notification": "^3.1.9",
     "react-native-reanimated": "^1.4.0",
+    "react-native-sectioned-multi-select": "^0.7.3",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3"

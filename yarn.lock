@@ -5377,6 +5377,11 @@ react-native-safe-area-view@^0.14.1:
   dependencies:
     debounce "^1.2.0"
 
+react-native-sectioned-multi-select@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/react-native-sectioned-multi-select/-/react-native-sectioned-multi-select-0.7.3.tgz#e9ec5a23eb5614bbfc5146986679e247e81ea235"
+  integrity sha512-mFm94e4g2FFF3GiHJYHr+uqnbrskxIy1xW+qJU6wOQvVePFrvI3NEJAOkD10dy8hQGUxm6ws+Fa5jiTAbhM1OQ==
+
 react-native-vector-icons@^6.6.0:
   version "6.6.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-6.6.0.tgz#66cf004918eb05d90778d64bd42077c1800d481b"
