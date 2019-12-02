@@ -18,8 +18,10 @@ import api from '../services/api';
 
 export default function Login({navigation}) {
   const [tipo, setTipo] = useState('low');
-  const [horarioEnvio, setHorarioEnvio] = useState(new Date());
-  const [periodoAcesso, setPeriodoAcesso] = useState('');
+  const [horarioEnvio, setHorarioEnvio] = useState('2019-12-02T19:15:13.326Z');
+  const [periodoAcesso, setPeriodoAcesso] = useState(
+    '2019-12-02T19:15:13.326Z'
+  );
   const [receber, setReceber] = useState(false);
   const [to, setTo] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -68,7 +70,6 @@ export default function Login({navigation}) {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      {console.log(to)}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
           <Text style={styles.botaoHeader}>Cancelar</Text>
@@ -86,6 +87,7 @@ export default function Login({navigation}) {
           <Text style={styles.legenda}>Tipo de notificação</Text>
           <View style={styles.input}>
             <RNPickerSelect
+              value={tipo}
               onValueChange={value => setTipo(value)}
               items={[
                 {label: 'Baixo', value: 'low'},
@@ -127,11 +129,12 @@ export default function Login({navigation}) {
           <Text style={styles.legenda}>Horário de envio</Text>
           <View style={styles.input}>
             <RNPickerSelect
+              value={horarioEnvio}
               onValueChange={value => setHorarioEnvio(value)}
               items={[
-                {label: 'Imediato', value: new Date()},
-                {label: 'Amanhã', value: new Date()},
-                {label: 'Próxima Semana', value: new Date()},
+                {label: 'Imediato', value: '2019-12-02T19:15:13.326Z'},
+                {label: 'Amanhã', value: '2019-12-03T19:15:13.326Z'},
+                {label: 'Próxima Semana', value: '2019-12-09T19:15:13.326Z'},
               ]}
               placeholder={{}}
             />
@@ -142,12 +145,13 @@ export default function Login({navigation}) {
           <Text style={styles.legenda}>Período de acesso</Text>
           <View style={styles.input}>
             <RNPickerSelect
+              value={periodoAcesso}
               onValueChange={value => setPeriodoAcesso(value)}
               items={[
-                {label: 'Indeterminado', value: new Date()},
-                {label: '1 Dia', value: new Date()},
-                {label: '1 Semana', value: new Date()},
-                {label: '1 Mês', value: new Date()},
+                {label: 'Indeterminado', value: '2019-12-02T19:15:13.326Z'},
+                {label: '1 Dia', value: '2019-12-03T19:15:13.326Z'},
+                {label: '1 Semana', value: '2019-12-09T19:15:13.326Z'},
+                {label: '1 Mês', value: '2020-01-02T19:15:13.326Z'},
               ]}
               placeholder={{}}
             />
@@ -272,6 +276,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#0041c4',
     borderBottomWidth: 1,
     paddingHorizontal: 0,
+    justifyContent: 'center',
   },
 
   selectItem: {
