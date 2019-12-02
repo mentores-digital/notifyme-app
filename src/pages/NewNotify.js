@@ -270,7 +270,6 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     fontFamily: 'Montserrat-Medium',
     fontSize: 14,
-    lineHeight: 1.57,
     color: '#303030',
     backgroundColor: 'rgba(0, 0, 0, 0)',
     borderBottomColor: '#0041c4',
