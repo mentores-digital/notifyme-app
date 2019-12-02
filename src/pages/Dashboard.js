@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
+
   buttonPlus: {
     position: 'absolute',
     bottom: 50,
