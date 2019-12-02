@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   SafeAreaView,
@@ -8,30 +8,103 @@ import {
   Text,
   TextInput,
   Picker,
-  Switch,
+  TouchableWithoutFeedback,
   StyleSheet,
 } from 'react-native';
+import MultiSelect from 'react-native-multiple-select';
 
 import api from '../services/api';
 
 export default function Login({navigation}) {
   const [tipo, setTipo] = useState('low');
-  const [horarioEnvio, setHorarioEnvio] = useState('now');
+  const [horarioEnvio, setHorarioEnvio] = useState(new Date());
   const [periodoAcesso, setPeriodoAcesso] = useState('');
   const [receber, setReceber] = useState(false);
-  const [to, setTo] = useState([]);
+  const [to, setTo] = useState([
+    {
+      id: '92iijs7yta',
+      name: 'Ondo',
+    },
+    {
+      id: 'a0s0a8ssbsd',
+      name: 'Ogun',
+    },
+    {
+      id: '16hbajsabsd',
+      name: 'Calabar',
+    },
+    {
+      id: 'nahs75a5sg',
+      name: 'Lagos',
+    },
+    {
+      id: '667atsas',
+      name: 'Maiduguri',
+    },
+    {
+      id: 'hsyasajs',
+      name: 'Anambra',
+    },
+    {
+      id: 'djsjudksjd',
+      name: 'Benue',
+    },
+    {
+      id: 'sdhyaysdj',
+      name: 'Kaduna',
+    },
+    {
+      id: 'suudydjsjd',
+      name: 'Abuja',
+    },
+  ]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [titulo, onChangeTitulo] = useState('');
+  const [descricao, onChangeDescricao] = useState('');
 
-  async function loadUsers() {
-    const response = await api.get('/users', {
-      headers: {
-        user: AsyncStorage.getItem('user'),
+  useEffect(() => {
+    async function loadUsers() {
+      const user = await AsyncStorage.getItem('user');
+
+      const response = await api.get('/users', {
+        headers: {
+          user,
+        },
+      });
+      setTo(response.data);
+    }
+    loadUsers();
+  }, []);
+
+  const _multiSelect = useRef();
+
+  async function saveNotification() {
+    const user = await AsyncStorage.getItem('user');
+
+    const response = await api.post(
+      '/notify',
+      {
+        type: tipo,
+        title: titulo,
+        description: descricao,
+        hour: horarioEnvio,
+        receive: receber,
+        to: selectedUsers,
       },
-    });
-    setTo(response.data);
+      {
+        headers: {
+          user,
+        },
+      }
+    );
+
+    console.log(response);
+    navigation.navigate('Dashboard');
   }
 
   return (
     <SafeAreaView style={{flex: 1}}>
+      {console.log(to)}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
           <Text style={styles.botaoHeader}>Cancelar</Text>
@@ -39,7 +112,7 @@ export default function Login({navigation}) {
 
         <Text style={styles.tituloHeader}>Nova Notificação</Text>
 
-        <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
+        <TouchableOpacity onPress={saveNotification}>
           <Text style={styles.botaoHeader}>Salvar</Text>
         </TouchableOpacity>
       </View>
@@ -67,6 +140,7 @@ export default function Login({navigation}) {
             autoCorrect={false}
             placeholder="Título"
             placeholderTextColor="#303030"
+            onChangeText={text => onChangeTitulo(text)}
             style={styles.input}
             textContentType="none"
           />
@@ -79,6 +153,7 @@ export default function Login({navigation}) {
             autoCorrect={false}
             placeholder="Descrição"
             placeholderTextColor="#303030"
+            onChangeText={text => onChangeDescricao(text)}
             style={styles.input}
             textContentType="username"
           />
@@ -120,30 +195,50 @@ export default function Login({navigation}) {
         <View style={styles.inputContainer}>
           <Text style={styles.legenda}>Notificação</Text>
           <View style={styles.input}>
-            <Text style={styles.inputReceber}>Receber notificação</Text>
-            <Switch
-              style={{marginTop: 30}}
-              value={receber}
-              onValueChange={val => setReceber(val)}
-            />
+            <View style={styles.inputReceber}>
+              <Text>Receber notificação</Text>
+              <TouchableWithoutFeedback onPress={() => setReceber(!receber)}>
+                {receber ? (
+                  <View style={styles.switchActive}>
+                    <View style={styles.switchBallActive} />
+                  </View>
+                ) : (
+                  <View style={styles.switch}>
+                    <View style={styles.switchBall} />
+                  </View>
+                )}
+              </TouchableWithoutFeedback>
+            </View>
           </View>
         </View>
 
-        <View style={styles.inputContainer}>
+        <View style={styles.lastContainer}>
           <Text style={styles.legenda}>Enviar para</Text>
-          <View style={styles.input}>
-            <Picker
-              selectedValue={periodoAcesso}
-              mode="dialog"
-              style={{height: 40, width: '100%'}}
-              onValueChange={(itemValue, itemIndex) =>
-                setPeriodoAcesso(itemValue)
-              }>
-              <Picker.Item label="Todos" value="todos" />
-              {/* {to.map(user => (
-                <Picker.Item label={user.username} value={user._id} />
-              ))} */}
-            </Picker>
+          <MultiSelect
+            hideTags
+            items={to}
+            uniqueKey="_id"
+            ref={_multiSelect}
+            onSelectedItemsChange={val => setSelectedUsers(val)}
+            selectedItems={selectedUsers}
+            selectText="Usuários"
+            searchInputPlaceholderText="Encontrar usuário..."
+            onChangeInput={text => console.log(text)}
+            altFontFamily="Montserrat-Regular"
+            tagRemoveIconColor="#CCC"
+            tagBorderColor="#CCC"
+            tagTextColor="#CCC"
+            selectedItemTextColor="#CCC"
+            selectedItemIconColor="#CCC"
+            itemTextColor="#000"
+            displayKey="username"
+            searchInputStyle={{color: '#CCC'}}
+            submitButtonColor="#CCC"
+            submitButtonText="Escolher"
+          />
+          <View>
+            {_multiSelect.current &&
+              _multiSelect.current.getSelectedItemsExt(selectedUsers)}
           </View>
         </View>
       </ScrollView>
@@ -192,6 +287,10 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 
+  lastContainer: {
+    marginBottom: 300,
+  },
+
   legenda: {
     textTransform: 'uppercase',
     fontFamily: 'Montserrat-Regular',
@@ -228,6 +327,42 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Medium',
     fontSize: 14,
     color: '#303030',
-    justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+
+  switch: {
+    width: 50,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#aaa',
+  },
+
+  switchActive: {
+    width: 50,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#0041c4',
+  },
+
+  switchBall: {
+    position: 'absolute',
+    top: 3,
+    left: 3,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#fff',
+  },
+
+  switchBallActive: {
+    position: 'absolute',
+    top: 3,
+    right: 3,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#fff',
   },
 });
