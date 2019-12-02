@@ -12,6 +12,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
+import RNPickerSelect from 'react-native-picker-select';
 
 import api from '../services/api';
 
@@ -20,44 +21,7 @@ export default function Login({navigation}) {
   const [horarioEnvio, setHorarioEnvio] = useState(new Date());
   const [periodoAcesso, setPeriodoAcesso] = useState('');
   const [receber, setReceber] = useState(false);
-  const [to, setTo] = useState([
-    {
-      id: '92iijs7yta',
-      name: 'Ondo',
-    },
-    {
-      id: 'a0s0a8ssbsd',
-      name: 'Ogun',
-    },
-    {
-      id: '16hbajsabsd',
-      name: 'Calabar',
-    },
-    {
-      id: 'nahs75a5sg',
-      name: 'Lagos',
-    },
-    {
-      id: '667atsas',
-      name: 'Maiduguri',
-    },
-    {
-      id: 'hsyasajs',
-      name: 'Anambra',
-    },
-    {
-      id: 'djsjudksjd',
-      name: 'Benue',
-    },
-    {
-      id: 'sdhyaysdj',
-      name: 'Kaduna',
-    },
-    {
-      id: 'suudydjsjd',
-      name: 'Abuja',
-    },
-  ]);
+  const [to, setTo] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [titulo, onChangeTitulo] = useState('');
   const [descricao, onChangeDescricao] = useState('');
@@ -121,15 +85,15 @@ export default function Login({navigation}) {
         <View style={styles.inputContainer}>
           <Text style={styles.legenda}>Tipo de notificação</Text>
           <View style={styles.input}>
-            <Picker
-              selectedValue={tipo}
-              style={{height: 40, width: '100%'}}
-              itemStyle={styles.selectItem}
-              onValueChange={(itemValue, itemIndex) => setTipo(itemValue)}>
-              <Picker.Item label="Baixo" value="low" />
-              <Picker.Item label="Médio" value="medium" />
-              <Picker.Item label="Urgente" value="urgent" />
-            </Picker>
+            <RNPickerSelect
+              onValueChange={value => setTipo(value)}
+              items={[
+                {label: 'Baixo', value: 'low'},
+                {label: 'Médio', value: 'medium'},
+                {label: 'Urgente', value: 'urgent'},
+              ]}
+              placeholder={{}}
+            />
           </View>
         </View>
 
@@ -162,33 +126,31 @@ export default function Login({navigation}) {
         <View style={styles.inputContainer}>
           <Text style={styles.legenda}>Horário de envio</Text>
           <View style={styles.input}>
-            <Picker
-              selectedValue={horarioEnvio}
-              style={{height: 40, width: '100%'}}
-              onValueChange={(itemValue, itemIndex) =>
-                setHorarioEnvio(itemValue)
-              }>
-              <Picker.Item label="Imediato" value={new Date()} />
-              <Picker.Item label="Amanhã" value={new Date()} />
-              <Picker.Item label="Próxima Semana" value={new Date()} />
-            </Picker>
+            <RNPickerSelect
+              onValueChange={value => setHorarioEnvio(value)}
+              items={[
+                {label: 'Imediato', value: new Date()},
+                {label: 'Amanhã', value: new Date()},
+                {label: 'Próxima Semana', value: new Date()},
+              ]}
+              placeholder={{}}
+            />
           </View>
         </View>
 
         <View style={styles.inputContainer}>
           <Text style={styles.legenda}>Período de acesso</Text>
           <View style={styles.input}>
-            <Picker
-              selectedValue={periodoAcesso}
-              style={{height: 40, width: '100%'}}
-              onValueChange={(itemValue, itemIndex) =>
-                setPeriodoAcesso(itemValue)
-              }>
-              <Picker.Item label="Indeterminado" value={new Date()} />
-              <Picker.Item label="1 Dia" value="d" />
-              <Picker.Item label="1 Semana" value="s" />
-              <Picker.Item label="1 Mês" value="m" />
-            </Picker>
+            <RNPickerSelect
+              onValueChange={value => setPeriodoAcesso(value)}
+              items={[
+                {label: 'Indeterminado', value: new Date()},
+                {label: '1 Dia', value: new Date()},
+                {label: '1 Semana', value: new Date()},
+                {label: '1 Mês', value: new Date()},
+              ]}
+              placeholder={{}}
+            />
           </View>
         </View>
 
